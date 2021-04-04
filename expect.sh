@@ -173,7 +173,7 @@ expect -exact "PIN: "
 send -- "$USER_PIN\r"
 
 expect -exact "Key is valid for? (0) "
-send -- "10y\r"
+send -- "3y\r"
 
 expect -exact "Is this correct? (y/N) "
 send -- "y\r"
@@ -248,18 +248,18 @@ expect eof
 
 # Turn on touch for ENCRYPTION.
 send_user "Now requiring you to touch your Yubikey to attest.\n"
-spawn openpgp keys set-touch att on
+spawn ykman openpgp keys set-touch att on
 
 expect -exact "Enter Admin PIN: "
 stty -echo
 send -- "$ADMIN_PIN\r"
 
-expect -exact "Set touch policy of attestation to on? \[y/N\]: "
+expect -exact "Set touch policy of attestation key to on? \[y/N\]: "
 send -- "y\r"
 expect eof
 
 # Export Attestation
-ykman openpgp keys attest AUT attestation.pem
-echo "Please copy the attestation certificate below: \n"
-more attestation.pem
-ykman openpgp certificates export ATT signer.pem
+spawn ykman openpgp keys attest AUT attestation.pem
+send_user "Please copy the attestation certificate below: \n"
+spawn more attestation.pem
+spawn ykman openpgp certificates export ATT signer.pem

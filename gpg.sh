@@ -238,10 +238,10 @@ echo "New Admin PIN: $ADMIN_PIN"
 echo "***********************************************************"
 echo
 echo "Please save this new Admin PIN (copied to clipboard) immediately in your password manager."
-echo "$ADMIN_PIN" | $CLIP $CLIP_ARGS
+echo "Admin PIN: $ADMIN_PIN" | $CLIP $CLIP_ARGS
 read -rp "Once you have copied to your password manager press ENTER "
 echo "Please also associate it with this YubiKey serial number (copied to clipboard): $SERIAL"
-echo "$SERIAL" | $CLIP $CLIP_ARGS
+echo "Yubikey Serial: $SERIAL" | $CLIP $CLIP_ARGS
 read -rp "Once you have copied to your password manager press ENTER "
 echo
 
@@ -253,7 +253,7 @@ echo "Exporting your binary GPG public key to $BIN_GPG_PUBKEY"
 $GPG --homedir="$GPG_HOMEDIR" --export "$KEYID" > "$BIN_GPG_PUBKEY"
 echo "Exporting your ASCII-armored GPG public key to $ASC_GPG_PUBKEY"
 $GPG --homedir="$GPG_HOMEDIR" --armor --export "$KEYID" > "$ASC_GPG_PUBKEY"
-echo "$ASC_GPG_PUBKEY" | $CLIP $CLIP_ARGS
+echo "GPG Public Key: $ASC_GPG_PUBKEY" | $CLIP $CLIP_ARGS
 echo "Please save a copy in your password manager."
 read -rp "Once you have copied to your password manager press ENTER "
 echo "There is NO off-card backup of your private / secret keys."
@@ -263,7 +263,7 @@ echo
 
 # Ask user to save revocation certificate before deleting it.
 REVOCATION_CERT=$GPG_HOMEDIR/openpgp-revocs.d/$KEYID.rev
-echo "$REVOCATION_CERT" | $CLIP $CLIP_ARGS
+echo "Revocation Certificate: $REVOCATION_CERT" | $CLIP $CLIP_ARGS
 echo "Your revocation certificate is at $REVOCATION_CERT"
 echo "It has been copied to your clipboard."
 echo "Please save a copy in your password manager before we delete it off disk."
@@ -275,7 +275,7 @@ $CLIP $CLIP_ARGS < /dev/null
 echo
 
 # Final reminders.
-echo "Finally, remember that your keys will not expire until 10 years from now."
+echo "Finally, remember that your keys will not expire until 3 years from now."
 echo "You will need to ${RED}${BOLD}enter your User PIN (once a day)${RESET}, and ${RED}${BOLD}touch your YubiKey${RESET} in order to sign any message with this GPG key."
 if [[ "$TOUCH_POLICY" == "on" ]]; then
   echo "You may wish to pass the --no-gpg-sign flag to git rebase."
