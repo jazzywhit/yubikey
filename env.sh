@@ -25,8 +25,7 @@ input=$(echo "$input" | tr "[:lower:]" "[:upper:]")
 case $input in yes|YES|y|Y|Yes)
         ;;
     *)
-        echo "Exiting, if your OS is marked as supported, please open an issue"
-        echo "https://github.com/DataDog/yubikey/issues/new/choose"
+        echo "Your OS is not supported"
         exit 1
 esac
 

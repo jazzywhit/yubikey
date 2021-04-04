@@ -207,12 +207,16 @@ expect {
 expect eof
 
 # Disable OTP, OATH, PIV
-ykman config usb --force --disable OTP
-ykman config usb --force --disable OATH
-ykman config usb --force --disable PIV
+send_user "Disabling OTP on your Yubikey.\n"
+spawn ykman config usb --force --disable OTP
+
+send_user "Disabling OATH on your Yubikey.\n"
+spawn ykman config usb --force --disable OATH
+
+send_user "Disabling PIV on your Yubikey.\n"
+spawn ykman config usb --force --disable PIV
 
 # Turn on touch for SIGNATURES.
-
 send_user "Now requiring you to touch your Yubikey to sign any message.\n"
 spawn ykman openpgp keys set-touch sig on
 

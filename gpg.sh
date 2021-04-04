@@ -63,6 +63,9 @@ esac
 # Get full name and email address.
 source realname-and-email.sh
 
+# Copy GPG.Conf
+cp ./gpg.conf ~/.gnupg/
+
 # Get comment to distinguish between keys.
 SERIAL=$($YKMAN info | grep 'Serial number:' | cut -f2 -d: | tr -d ' ')
 COMMENT="GPG on Yubikey - $SERIAL"

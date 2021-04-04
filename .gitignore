@@ -3,3 +3,4 @@
 *.pub
 *.code-workspace
 *.sw[a-z]
+.idea/
