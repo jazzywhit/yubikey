@@ -30,9 +30,8 @@ echo "If you ever run into problems, just press Ctrl-C, and rerun this program a
 echo
 
 echo "You need to have $(join ',' "${DEPS[@]}") installed on your device."
-read -rp "Do you want us to install them for you ? (y/n)" answer
-case "$answer" in
-    yes|YES|y|Y|Yes)
+read -rp "Do you want us to install them for you ? (y/N)" answer
+case "$answer" in yes|YES|y|Y|Yes)
         # install required tools
         echo "Installing or upgrading required tools..."
         eval "$PKG_MANAGER_ENV" "$PKG_MANAGER" "$PKG_MANAGER_UPDATE"
@@ -65,7 +64,8 @@ esac
 source realname-and-email.sh
 
 # Get comment to distinguish between keys.
-COMMENT="GPG on YubiKey for Datadog"
+SERIAL=$($YKMAN info | grep 'Serial number:' | cut -f2 -d: | tr -d ' ')
+COMMENT="GPG on Yubikey - $SERIAL"
 echo "What is a comment you would like to use to distinguish this key?"
 read -rp "Comment (press Enter to accept '$COMMENT'): " input
 COMMENT=${input:-$COMMENT}
@@ -74,7 +74,6 @@ echo
 # Generate some information for the user.
 USER_PIN=$(python -S -c "import random; print(random.SystemRandom().randrange(10**7,10**8))")
 ADMIN_PIN=$(python -S -c "import random; print(random.SystemRandom().randrange(10**7,10**8))")
-SERIAL=$($YKMAN info | grep 'Serial number:' | cut -f2 -d: | tr -d ' ')
 
 # Set some parameters based on whether FIPS key or not.
 DEVICE_TYPE=$($YKMAN info | grep 'Device type:' | cut -f2 -d: | awk '{$1=$1;print}')
@@ -212,10 +211,10 @@ echo "***********************************************************"
 echo
 echo "Please save this new User PIN (copied to clipboard) immediately in your password manager."
 echo "$USER_PIN" | $CLIP $CLIP_ARGS
-read -rp "Have you done this? "
+read -rp "Once you have copied to your password manager press ENTER "
 echo "Please also associate it with this YubiKey serial number (copied to clipboard): $SERIAL"
 echo "$SERIAL" | $CLIP $CLIP_ARGS
-read -rp "Have you done this? "
+read -rp "Once you have copied to your password manager press ENTER "
 echo
 
 echo "The second number is the Admin PIN."
@@ -227,10 +226,10 @@ echo "***********************************************************"
 echo
 echo "Please save this new Admin PIN (copied to clipboard) immediately in your password manager."
 echo "$ADMIN_PIN" | $CLIP $CLIP_ARGS
-read -rp "Have you done this? "
+read -rp "Once you have copied to your password manager press ENTER "
 echo "Please also associate it with this YubiKey serial number (copied to clipboard): $SERIAL"
 echo "$SERIAL" | $CLIP $CLIP_ARGS
-read -rp "Have you done this? "
+read -rp "Once you have copied to your password manager press ENTER "
 echo
 
 # Export GPG public key.
@@ -243,7 +242,7 @@ echo "Exporting your ASCII-armored GPG public key to $ASC_GPG_PUBKEY"
 $GPG --homedir="$GPG_HOMEDIR" --armor --export "$KEYID" > "$ASC_GPG_PUBKEY"
 echo "$ASC_GPG_PUBKEY" | $CLIP $CLIP_ARGS
 echo "Please save a copy in your password manager."
-read -rp "Have you done this? "
+read -rp "Once you have copied to your password manager press ENTER "
 echo "There is NO off-card backup of your private / secret keys."
 echo "So, if your YubiKey is damaged, lost, or stolen, then you must rotate your GPG keys out-of-band."
 echo "You would also no longer be able to decrypt messages encrypted for this GPG key."
@@ -255,7 +254,7 @@ echo "$REVOCATION_CERT" | $CLIP $CLIP_ARGS
 echo "Your revocation certificate is at $REVOCATION_CERT"
 echo "It has been copied to your clipboard."
 echo "Please save a copy in your password manager before we delete it off disk."
-read -rp "Have you done this? "
+read -rp "Once you have copied to your password manager press ENTER "
 rm "$REVOCATION_CERT"
 echo "Great. Deleted this revocation certificate from disk."
 # NOTE: EMPTY clipboard after this.
@@ -270,4 +269,4 @@ if [[ "$TOUCH_POLICY" == "on" ]]; then
 else
   echo "Touch is cached for 15s on sign operations."
 fi
-echo "Enjoy using your YubiKey at Datadog!"
+echo "Enjoy using your YubiKey!"

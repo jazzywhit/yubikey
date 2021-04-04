@@ -72,4 +72,4 @@ echo "Great."
 echo
 echo "You will need to ${RED}${BOLD}enter your PIN (once a day)${RESET}, and ${RED}${BOLD}touch your YubiKey everytime${RESET} in order to use SSH."
 echo
-echo "Enjoy using your YubiKey at Datadog!"
+echo "Enjoy using your YubiKey!"

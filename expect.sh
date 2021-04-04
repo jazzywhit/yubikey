@@ -206,16 +206,21 @@ expect {
 
 expect eof
 
+# Disable OTP, OATH, PIV
+ykman config usb --force --disable OTP
+ykman config usb --force --disable OATH
+ykman config usb --force --disable PIV
+
 # Turn on touch for SIGNATURES.
 
 send_user "Now requiring you to touch your Yubikey to sign any message.\n"
-spawn ykman openpgp keys set-touch sig $TOUCH_POLICY
+spawn ykman openpgp keys set-touch sig on
 
 expect -exact "Enter Admin PIN: "
 stty -echo
 send -- "$ADMIN_PIN\r"
 
-expect -exact "Set touch policy of signature key to $TOUCH_POLICY? \[y/N\]: "
+expect -exact "Set touch policy of signature key to on? \[y/N\]: "
 send -- "y\r"
 expect eof
 
@@ -245,5 +250,20 @@ expect -exact "Set touch policy of encryption key to on? \[y/N\]: "
 send -- "y\r"
 expect eof
 
-# Touch for ATTESTATION works only for Yubico firmware >= 5.2.3.
-# https://support.yubico.com/support/solutions/articles/15000027139-yubikey-5-2-3-enhancements-to-openpgp-3-4-support
+# Turn on touch for ENCRYPTION.
+send_user "Now requiring you to touch your Yubikey to attest.\n"
+spawn openpgp keys set-touch att on
+
+expect -exact "Enter Admin PIN: "
+stty -echo
+send -- "$ADMIN_PIN\r"
+
+expect -exact "Set touch policy of attestation to on? \[y/N\]: "
+send -- "y\r"
+expect eof
+
+# Export Attestation
+ykman openpgp keys attest AUT attestation.pem
+echo "Please copy the attestation certificate below: \n"
+more attestation.pem
+ykman openpgp certificates export ATT signer.pem

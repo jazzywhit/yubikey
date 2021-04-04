@@ -22,8 +22,7 @@ esac
 echo "OS detected is $OS"
 read -rp "Is it correct ? (y|N)" input
 input=$(echo "$input" | tr "[:lower:]" "[:upper:]")
-case $input in
-    Y|YES)
+case $input in yes|YES|y|Y|Yes)
         ;;
     *)
         echo "Exiting, if your OS is marked as supported, please open an issue"
@@ -31,8 +30,7 @@ case $input in
         exit 1
 esac
 
-case ${OS,,} in
-    macos)
+case ${OS} in macos)
         PKG_MANAGER="brew"
         PKG_MANAGER_ENV=""
         PKG_MANAGER_INSTALL="install"

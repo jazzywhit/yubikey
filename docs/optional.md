@@ -170,7 +170,7 @@ repositories, and then use `git config --local` to override `user.signingkey`
 for different repositories.
 
 Alternatively, let us say you use your personal key for open source projects,
-and the one in the YubiKey for Datadog proprietary code. One possible
+and the one in the YubiKey for proprietary code. One possible
 solution is to setup git aliases. First, make sure signing is turned on
 globally:
 
