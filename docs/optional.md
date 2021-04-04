@@ -6,25 +6,6 @@
 - [Signing for different git repositories with different keys](#signing-for-different-git-repositories-with-different-keys)
 - [Configure another computer to use a configured Yubikey](#configure-another-computer-to-use-a-configured-yubikey)
 
-## Keybase
-
-Optional: verify public key on Keybase.  You can now do this using the
-command-line option, with only `curl` and `gpg`, and without installing any
-Keybase app, or uploading an encrypted copy of your private key. For example,
-see this [profile](https://keybase.io/trishankdatadog).
-
-If you have the [Keybase application](https://keybase.io/docs/the_app/install_macos)
-installed, you can import your YubiKey public key like this:
-
-```bash
-$ keybase pgp select
-
-# If you already have a primary Keybase public key, use the --multi flag to import another
-$ keybase pgp select --multi
-```
-
-See `keybase pgp help select` for more detail.
-
 ## VMware Fusion
 
 Optional: using YubiKey inside GNU/Linux running on VMware Fusion.

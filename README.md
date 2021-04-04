@@ -1,4 +1,4 @@
-# YubiKey at Datadog
+# YubiKey at <company_name>
 
 - [Summary](#summary)
 - [Estimated burden and prerequisites](#estimated-burden-and-prerequisites)
