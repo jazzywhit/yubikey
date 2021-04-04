@@ -185,6 +185,16 @@ $GPGCONF --homedir="$GPG_HOMEDIR" --kill all
 GPG_TTY="" ./expect.sh "$TOUCH_POLICY" "$ADMIN_PIN" "$GPG_HOMEDIR" "$USER_PIN" "$KEY_LENGTH" "$REALNAME" "$EMAIL" "$COMMENT"
 echo
 
+# Disable OTP, OATH, PIV
+echo "Disabling OTP on your Yubikey.\n"
+ykman config usb --force --disable OTP
+
+echo "Disabling OATH on your Yubikey.\n"
+ykman config usb --force --disable OATH
+
+echo "Disabling PIV on your Yubikey.\n"
+ykman config usb --force --disable PIV
+
 # restore initial locale value
 export LC_ALL="${old_locale}"
 

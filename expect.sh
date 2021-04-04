@@ -124,11 +124,12 @@ send -- "key-attr\r"
 
 # Signature key.
 expect -exact "Your selection? "
-# RSA
-send -- "1\r"
+# ECC
+send -- "2\r"
 
-expect "What keysize do you want? (*) "
-send -- "$KEY_LENGTH\r"
+# Curve 25519
+expect -exact "Your selection? "
+send -- "1\r"
 
 # Send new Admin PIN
 expect -exact "Admin PIN: "
@@ -136,11 +137,12 @@ send -- "$ADMIN_PIN\r"
 
 # Encryption key.
 expect -exact "Your selection? "
-# RSA
-send -- "1\r"
+# ECC
+send -- "2\r"
 
-expect "What keysize do you want? (*) "
-send -- "$KEY_LENGTH\r"
+# Curve 25519
+expect -exact "Your selection? "
+send -- "1\r"
 
 # Send new Admin PIN
 expect -exact "Admin PIN: "
@@ -148,18 +150,18 @@ send -- "$ADMIN_PIN\r"
 
 # Authentication key.
 expect -exact "Your selection? "
-# RSA
-send -- "1\r"
+# ECC
+send -- "2\r"
 
-expect "What keysize do you want? (*) "
-send -- "$KEY_LENGTH\r"
+# Curve 25519
+expect -exact "Your selection? "
+send -- "1\r"
 
 # Send new Admin PIN
 expect -exact "Admin PIN: "
 send -- "$ADMIN_PIN\r"
 
 # Time to generate.
-
 expect -exact "gpg/card> "
 send -- "generate\r"
 
@@ -205,16 +207,6 @@ expect {
 }
 
 expect eof
-
-# Disable OTP, OATH, PIV
-send_user "Disabling OTP on your Yubikey.\n"
-spawn ykman config usb --force --disable OTP
-
-send_user "Disabling OATH on your Yubikey.\n"
-spawn ykman config usb --force --disable OATH
-
-send_user "Disabling PIV on your Yubikey.\n"
-spawn ykman config usb --force --disable PIV
 
 # Turn on touch for SIGNATURES.
 send_user "Now requiring you to touch your Yubikey to sign any message.\n"
